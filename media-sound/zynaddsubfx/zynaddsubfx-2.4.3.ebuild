@@ -5,24 +5,23 @@
 EAPI=4
 inherit eutils cmake-utils
 
-MY_P=zynaddsubfx-${PV}
+MY_P=ZynAddSubFX-${PV}
 
 DESCRIPTION="ZynAddSubFX is an opensource software synthesizer"
 HOMEPAGE="http://zynaddsubfx.sourceforge.net/"
-SRC_URI="mirror://sourceforge/zynaddsubfx/${MY_P}.tar.xz"
+SRC_URI="mirror://sourceforge/zynaddsubfx/${MY_P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ~ppc x86"
-IUSE="alsa +fltk jack lash dssi"
+IUSE="alsa +fltk jack lash"
 
 RDEPEND=">=dev-libs/mini-xml-2.2.1
 	sci-libs/fftw:3.0
 	alsa? ( media-libs/alsa-lib )
 	fltk? ( >=x11-libs/fltk-1.3:1 )
 	jack? ( media-sound/jack-audio-connection-kit )
-	lash? ( media-sound/lash )
-	dssi? ( media-libs/dssi )"
+	lash? ( media-sound/lash )"
 #	portaudio? ( media-libs/portaudio )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
@@ -43,11 +42,10 @@ DOCS="ChangeLog FAQ.txt HISTORY.txt README.txt ZynAddSubFX.lsm bugs.txt"
 src_configure() {
 	use lash || sed -i -e 's/lash-1.0/lash_disabled/' "${S}"/src/CMakeLists.txt
 	mycmakeargs=(
-		`use fltk && echo "-DGuiModule=fltk"      || echo "-DGuiModule=off"`
-		`use alsa && echo "-DOutputModule=alsa"   || echo "-DOutputModule=jack"`
+		`use fltk && echo "-DGuiModule=fltk" || echo "-DGuiModule=off"`
+		`use alsa && echo "-DOutputModule=alsa" || echo "-DOutputModule=jack"`
 		`use alsa && echo "-DAlsaMidiOutput=TRUE" || echo "-DAlsaMidiOutput=FALSE"`
-		`use jack && echo "-DJackOutput=TRUE"     || echo "-DJackOutput=FALSE"`
-		`use dssi && echo "-DDssiEnabled=TRUE"    || echo -DDssiEnabled=FALSE"`
+		`use jack && echo "-DJackOutput=TRUE" || echo "-DJackOutput=FALSE"`
 	)
 	cmake-utils_src_configure
 }
