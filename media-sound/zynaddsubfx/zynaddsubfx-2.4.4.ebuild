@@ -33,12 +33,15 @@ REQUIRED_USE="!alsa? ( jack )"
 
 S=${WORKDIR}/${MY_P}
 
+#PATCHES=(
+	#"${FILESDIR}"/${PN}-2.4.1-docs.patch
+	#"${FILESDIR}"/${PN}-2.4.3-nofltk.patch
+#)
 PATCHES=(
-	"${FILESDIR}"/${PN}-2.4.1-docs.patch
-	"${FILESDIR}"/${PN}-2.4.3-nofltk.patch
+	"${FILESDIR}"/${PN}-2.4.4-docs.patch
 )
 
-DOCS="ChangeLog FAQ.txt HISTORY.txt README.txt ZynAddSubFX.lsm bugs.txt"
+DOCS="ChangeLog FAQ.txt HISTORY.txt README.txt bugs.txt"
 
 src_configure() {
 	use lash || sed -i -e 's/lash-1.0/lash_disabled/' "${S}"/src/CMakeLists.txt
