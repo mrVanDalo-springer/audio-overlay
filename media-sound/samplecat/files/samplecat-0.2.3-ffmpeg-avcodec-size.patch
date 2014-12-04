@@ -1,0 +1,12 @@
+diff -ruN samplecat-0.2.3.orig/src/audio_decoder/ad_ffmpeg.c samplecat-0.2.3/src/audio_decoder/ad_ffmpeg.c
+--- samplecat-0.2.3.orig/src/audio_decoder/ad_ffmpeg.c	2014-12-04 15:43:33.488021133 +0100
++++ samplecat-0.2.3/src/audio_decoder/ad_ffmpeg.c	2014-12-04 15:44:34.684021326 +0100
+@@ -15,6 +15,8 @@
+ #include <libavcodec/avcodec.h>
+ #include <libavformat/avformat.h>
+ 
++#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000
++
+ typedef struct {
+   AVFormatContext* formatContext;
+   AVCodecContext*  codecContext;
