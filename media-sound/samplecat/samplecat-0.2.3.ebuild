@@ -2,6 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
+EAPI=4
+inherit eutils
+
 RESTRICT="nomirror"
 IUSE="mysql sqlite tracker auditioner"
 DESCRIPTION="SampleCat is a program for cataloguing and auditioning audio samples."
@@ -24,15 +27,23 @@ DEPEND=">=media-sound/jack-audio-connection-kit-0.99
 	auditioner? ( >=media-sound/ayyi_auditioner-0.1 )
 	>=x11-libs/gtk+-2.6"
 
-src_compile() {
-	local myconf=""
+REQUIRED_USE="!sqlite? ( mysql )"
 
+src_prepare() {
+	epatch "${FILESDIR}"/samplecat-0.2.3-ffmpeg-avcodec-size.patch
+}
+
+src_configure(){
+	local myconf=""
 	econf \
 		${myconf} \
 		$(use_enable mysql) \
 		$(use_enable sqlite) \
 		$(use_enable tracker) \
 		|| die
+}
+
+src_compile() {
 	emake || die
 }
 
